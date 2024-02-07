@@ -17,40 +17,41 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
+                        <label for="content" class="form-label">Description</label>
                         <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
                         @error('content')
                         <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="file" class="form-label">File</label>
-                        <input type="file" class="form-control" id="file" name="file">
-                        @error('file')
-                        <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="thread_category_id" class="form-label">Thread Category</label>
-                        <select class="form-select" id="thread_category_id" name="thread_category_id" required>
-                            <option value="1">Book</option>
-                            <option value="2">Sport</option>
+                        <label for="category_id" class="form-label">Thread Category</label>
+                        <select name="thread_category_id" id="category_id" required class="form-control" style="border: 1px solid;">
+                            <option value="">Select Category</option>
+                            @foreach ($threadCategories as $category)
+                                <option value="{{ $category->id }}">{{ $category->category }}</option>
+                            @endforeach
                             <option value="custom">Custom</option>
                         </select>
-                        <input type="text" class="form-control mt-2" id="custom_thread_category" name="custom_thread_category" style="display: none;">
+
+
+                        <div id="custom_category_form" style="display: none;">
+                            <label for="custom_thread_category" class="form-label">Custom Category</label>
+                            <input type="text" class="form-control" id="custom_thread_category" name="custom_thread_category">
+                        </div>
                         @error('thread_category_id')
                         <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <script>
-                        document.getElementById('thread_category_id').addEventListener('change', function () {
-                            var customInput = document.getElementById('custom_thread_category');
+                        document.getElementById('category_id').addEventListener('change', function () {
+                            var customForm = document.getElementById('custom_category_form');
                             if (this.value === 'custom') {
-                                customInput.style.display = 'block';
-                                customInput.setAttribute('required', 'required');
+                                customForm.style.display = 'block';
+                                customForm.querySelector('input').setAttribute('required', 'required');
                             } else {
-                                customInput.style.display = 'none';
-                                customInput.removeAttribute('required');
+                                customForm.style.display = 'none';
+                                customForm.querySelector('input').removeAttribute('required');
                             }
                         });
                     </script>

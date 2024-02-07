@@ -6,13 +6,10 @@
             <div class="col-6">
                 @include('shared.success_message')
                 {{-- hilangkan tombol submit thread jika role admin --}}
-                @auth()
-                @if (Auth::user()->role == 3)
-                @else
+                @auth
                 <a href="submit_thread" class="btn btn-primary mb-3">+ Create a Thread</a>
-                @endif
                 @endauth
-                @guest()
+                @guest
                 <h4>Login to share your ideas</h4>
                 @endguest
                 @forelse ($threads as $thread)
@@ -28,7 +25,7 @@
             </div>
             <div class="col-3">
                 @include('shared.search_bar')
-                {{-- @include('shared.follow_box') --}}
+                @include('forum.shared.category')
             </div>
         </div>
     </div>

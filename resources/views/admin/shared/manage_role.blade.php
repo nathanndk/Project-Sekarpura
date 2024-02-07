@@ -5,7 +5,7 @@
 @section('content')
 <div class="container py-4">
     <div class="row">
-        @include('layouts.sidebar')
+        @include('layouts.sidebar_cluster')
 
             <div class="col-md-8">
                 <div class="card">

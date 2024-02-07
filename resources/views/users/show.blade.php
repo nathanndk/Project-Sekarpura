@@ -23,7 +23,7 @@
         </div>
         <div class="col-3">
             @include('shared.search_bar')
-            @include('shared.follow_box')
+            @include('forum.shared.category')
         </div>
     </div>
 </div>

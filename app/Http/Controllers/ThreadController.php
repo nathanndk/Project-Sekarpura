@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thread;
+use App\Models\ThreadCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,7 @@ class ThreadController extends Controller
     {
         return view('threads.show', compact('thread'));
     }
+
     public function edit(Thread $thread)
     {
         // if (auth()->user()->id !== $thread->user_id) {
@@ -50,24 +52,24 @@ class ThreadController extends Controller
 
         return view('threads.show', compact('thread', 'editing'));
     }
-    
+
     public function store(Request $request)
     {
         request()->validate([
             'title' => 'required|min:5|max:30',
             'content' => 'required|min:5|max:254',
-            'thread_category_id' => 'required',
+            // 'thread_category_id' => 'required',
         ]);
 
         $thread = new Thread;
 
         $thread->title = $request->title;
         $thread->content = $request->content;
-        $thread->status = 'pending';
+        $thread->status = auth()->user()->role == 3 ? 'approved' : 'pending';
         $thread->created_at = now();
-        $thread->created_by = Auth::user()->name;
+        $thread->created_by = auth()->id();
         $thread->updated_at = now();
-        $thread->updated_by = Auth::user()->name;
+        $thread->updated_by = auth()->id();
         $thread->user_id = auth()->id();
         $thread->forum_type_id = '1';
         $thread->thread_category_id = $request->thread_category_id;
@@ -81,8 +83,9 @@ class ThreadController extends Controller
 
         $thread->save();
 
+        $approvalMessage = auth()->user()->role == 3 ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
 
-        return redirect('/forum')->with('success', 'Thread created successfully, wait for admin approval!');
+        return redirect('/forum')->with('success', $approvalMessage);
     }
 
     public function destroy(Thread $thread)
@@ -105,10 +108,24 @@ class ThreadController extends Controller
 
         $thread->title = $request->input('title', '');
         $thread->content = $request->input('content', '');
+
+        if (auth()->user()->role == 3) {
+            $thread->status = 'approved';
+        } else {
+            $thread->status = 'pending';
+        }
+
         $thread->updated_at = now();
         $thread->save();
 
-        return redirect()->route('threads.show', $thread->id)->with('success', 'Thread updated successfully!');
+        return redirect()->route('forum')->with('success', 'Thread updated' . ($thread->status == 'approved' ? ' and approved!' : ', wait for admin approval!'));
     }
-}
 
+    public function getCategory()
+    {
+        $threadCategories = ThreadCategory::all();
+
+        return view('threads.shared.submit_thread', compact('threadCategories'));
+    }
+
+}

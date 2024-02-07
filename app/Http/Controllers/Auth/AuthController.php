@@ -53,13 +53,13 @@ class AuthController extends Controller
             // Check the user's role and redirect accordingly
             switch ($user->role) {
                 case 1:
-                    return redirect()->route('forum')->with('success', 'Logged in successfully!');
+                    return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
                     break;
                 case 2:
-                    return redirect()->route('forum')->with('success', 'Logged in successfully!');
+                    return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
                     break;
                 case 3:
-                    return redirect()->route('admin.dashboard')->with('success', 'Logged in successfully!');
+                    return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
                     break;
 
                 default:

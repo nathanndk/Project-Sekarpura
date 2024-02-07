@@ -28,7 +28,7 @@ class Event extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function attachments()
+    public function attachment()
     {
         return $this->hasMany(Attachment::class, 'events_id', 'id');
     }

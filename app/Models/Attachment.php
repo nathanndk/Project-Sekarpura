@@ -13,6 +13,7 @@ class Attachment extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'file',
+        'path',
         'created_at',
         'created_by',
         'updated_at',

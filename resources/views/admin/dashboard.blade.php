@@ -2,11 +2,10 @@
 
 @section('content')
     <div class="container py-4">
-            @include('layouts.sidebar')
+            @include('layouts.sidebar_approval')
             <div class="col-6">
                 @include('shared.success_message')
-                {{-- @include('shared.error_message') --}}
-                @guest()
+                @guest
                 <h4>Login to share your ideas</h4>
                 @endguest
                 @forelse ($threads as $thread)
@@ -22,7 +21,7 @@
             </div>
             <div class="col-3">
                 @include('shared.search_bar')
-                {{-- @include('shared.follow_box') --}}
+                @include('forum.shared.category')
             </div>
         </div>
     </div>

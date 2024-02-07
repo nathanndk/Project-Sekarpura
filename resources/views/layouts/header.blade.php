@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{config('app.name')}}</title>
+    <title>{{ config('app.name') }}</title>
 
     <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
@@ -18,31 +18,66 @@
     <nav class="navbar navbar-expand-lg bg-dark border-bottom border-bottom-dark ticky-top bg-body-tertiary"
         data-bs-theme="dark">
         <div class="container">
-            <a class="navbar-brand fw-light" href="/forum"><span class="fas fa-brain me-1"> </span>{{config('app.name')}}</a>
+            <a class="navbar-brand fw-light" href="/"><span class="fas fa-brain me-1"> </span>{{ config('app.name') }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    @auth
+                        @if (Auth::user()->role == 1)
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                            </li>
+                        @endif
+                    @endauth
+                    @auth
+                        @if (Auth::user()->role == 2)
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                            </li>
+                        @endif
+                    @endauth
+                    @auth
+                        @if (Auth::user()->role == 3)
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('category')) ? 'active' : '' }}" href="{{ route('cluster') }}">Data Cluster</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('admin.dashboard')) ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Approval</a>
+                        </li>
+                        @endif
+                    @endauth
+                </ul>
+            </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     @guest
-                    <li class="nav-item">
-                        <a class="{{(Route::is('login'))?'active':''}} nav-link" aria-current="page" href="{{ route('login')}}">Login</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="{{ (Route::is('login')) ? 'active' : '' }} nav-link" aria-current="page" href="{{ route('login')}}">Login</a>
+                        </li>
                     @endguest
-                    @auth()
-                    @if (Auth::user()->role == 3)
-                    <li class="nav-item">
-                        <a class="{{(Route::is('admin'))?'active':''}} nav-link" href="{{ route('admin.dashboard')}}">Admin Dashboard</a>
-                    </li>
-                    @endif
-                    <li class="nav-item">
-                        <a class="{{(Route::is('profile'))?'active':''}} nav-link" href="{{ route('profile')}}">{{Auth::user()->name}}</a>
-                    </li>
-                    <form action="{{route('logout')}}" method="post">
-                        @csrf
-                        <button class="btn btn-danger btn-sm mt-1" type="submit">Logout</button>
-                    </form>
+                    @auth
+                        <li class="nav-item">
+                            <a class="{{ (Route::is('profile')) ? 'active' : '' }} nav-link" href="{{ route('profile')}}">{{ Auth::user()->name }}</a>
+                        </li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="btn btn-danger btn-sm mt-1" type="submit">Logout</button>
+                        </form>
                     @endauth
                 </ul>
             </div>
@@ -63,5 +98,5 @@
 <!-- Copyright notice -->
 
 <div class="text-center mt-5">
-    <p>&copy; {{ date('Y') }} {{config('app.name')}}. All rights reserved.</p>
+    <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
 </div>

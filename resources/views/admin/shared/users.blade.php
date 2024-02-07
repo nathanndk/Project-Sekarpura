@@ -4,7 +4,7 @@
 @section('content')
 <div class="container py-4">
     <div class="row">
-        @include('layouts.sidebar')
+        @include('layouts.sidebar_cluster')
         <h2 class="mb-4">Users</h2>
 
         <table class="table table-bordered">

@@ -14,6 +14,7 @@ class CreateAttachments extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
             $table->string('file', 255);
+            $table->string('path', 255);
             $table->dateTime('created_at');
             $table->string('created_by', 100);
             $table->dateTime('updated_at')->nullable();

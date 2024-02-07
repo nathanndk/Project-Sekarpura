@@ -4,9 +4,9 @@
             <div class="d-flex align-items-center">
 
                     <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                        src="{{ $thread->user-> getImageURL()}}" alt="{{  $thread->created_by }}">
+                        src="{{ $thread->user-> getImageURL()}}" alt="{{ $thread->user->name }}">
                     <div>
-                        <h5 class="card-title mb-0"><a href="{{route('users.show', $thread->user->id)}}">{{  $thread->created_by }}</a></h5>
+                        <h5 class="card-title mb-0"><a href="{{route('users.show', $thread->user->id)}}">{{ $thread->user->name }}</a></h5>
                     </div>
 
             </div>
