@@ -93,9 +93,9 @@ Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->na
 
 Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth', 'AnggotaPengurus']);
 
-Route::get('/terms', function () {
-    return view('forum.shared.terms');
-})->name('terms');
+// Route::get('/terms', function () {
+//     return view('forum.shared.terms');
+// })->name('terms');
 
 // Route::middleware(['auth', 'AnggotaPengurus'])->group(function () {
 //     Route::get('/submit_thread', function () {
