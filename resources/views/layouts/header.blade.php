@@ -66,7 +66,7 @@
                     @endguest
                     @auth
                         <li class="nav-item">
-                            <a class="{{ (Route::is('profile')) ? 'active' : '' }} nav-link" href="{{ route('profile')}}">{{ Auth::user()->name }}</a>
+                            <a class="{{ (Route::is('profile')) ? 'active' : '' }} nav-link" href="{{ route('profile')}}">{{ Auth::user()->username }}</a>
                         </li>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
