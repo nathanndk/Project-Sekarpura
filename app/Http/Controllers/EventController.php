@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
+    public function index()
+    {
+        $data = $this->getEventsData();
+
+        return view('event.dashboard', $data);
+    }
+
     public function getEventsData()
     {
         $events = array();
@@ -71,21 +78,7 @@ class EventController extends Controller
         ];
     }
 
-    public function dashboard()
-    {
-        $data = $this->getEventsData();
-
-        return view('event.dashboard', $data);
-    }
-
-    public function beranda()
-    {
-        $data = $this->getEventsData();
-
-        return view('beranda', $data);
-    }
-
-    public function createEvent(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:30',
@@ -111,7 +104,7 @@ class EventController extends Controller
         return response()->json(['message' => 'Event Created Successfully', 'event' => $event]);
     }
 
-    public function updateEvent(Request $request)
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:events,id',
@@ -142,7 +135,7 @@ class EventController extends Controller
         return response()->json(['message' => 'Event Updated Successfully', 'event' => $event]);
     }
 
-    public function deleteEvent($id)
+    public function destroy($id)
     {
         $event = Event::find($id);
 

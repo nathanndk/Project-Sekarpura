@@ -26,26 +26,6 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     @auth
-                        @if (Auth::user()->role == 1)
-                            <li class="nav-item">
-                                <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
-                            </li>
-                        @endif
-                    @endauth
-                    @auth
-                        @if (Auth::user()->role == 2)
-                            <li class="nav-item">
-                                <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
-                            </li>
-                        @endif
-                    @endauth
-                    @auth
                         @if (Auth::user()->role == 3)
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
@@ -54,11 +34,25 @@
                             <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('category')) ? 'active' : '' }}" href="{{ route('cluster') }}">Data Cluster</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ (Route::is('admin.dashboard')) ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Approval</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('category')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>
+                        </li>
+                        @elseif (Auth::user()->role == 2)
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                        </li>
+                        @elseif (Auth::user()->role == 1)
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                            </li>
                         @endif
                     @endauth
                 </ul>

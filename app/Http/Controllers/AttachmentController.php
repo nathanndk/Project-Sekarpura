@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AttachmentController extends Controller
 {
-    public function deleteAttachment($id)
+    public function destroy($id)
     {
         $attachment = Attachment::find($id);
 
@@ -20,7 +20,7 @@ class AttachmentController extends Controller
         }
     }
 
-    public function uploadAttachment(Request $request)
+    public function store(Request $request)
     {
         $file = $request->file('file');
         $events_id = $request->input('events_id');

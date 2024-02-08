@@ -21,32 +21,61 @@ use App\Http\Controllers\ThreadCategoryController;
 |
 */
 
-// Before login dashboard
-Route::get('/', [EventController::class, 'dashboard'])->name('dashboard');
+// Landing page
+Route::get('/', [EventController::class, 'index'])->name('dashboard');
 
-// Dashboard Admin
-Route::get('/dashboard', [EventController::class, 'dashboard'])->name('dashboard');
 
-// Create Event
-Route::post('/create-event', [EventController::class, 'createEvent']);
+// Event
+Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
 
-// Update Event
-Route::put('/update-event', [EventController::class, 'updateEvent']);
+Route::post('/create-event', [EventController::class, 'store']);
 
-// Delete Event
-Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent']);
+Route::put('/update-event', [EventController::class, 'update']);
 
-// Drag Event
+Route::delete('/delete-event/{id}', [EventController::class, 'destroy']);
+
 Route::put('/drag-event', [EventController::class, 'dragEvent']);
 
-// Delete Attachment
-Route::delete('/delete-attachment/{id}', [AttachmentController::class, 'deleteAttachment']);
 
-// Add Attachment
-Route::post('/upload-attachment', [AttachmentController::class, 'uploadAttachment']);
+// Attachment
+Route::post('/upload-attachment', [AttachmentController::class, 'store']);
 
-//menampilkan forum
-Route::get('/forum', [ThreadController::class, 'index'])->name('forum');
+Route::delete('/delete-attachment/{id}', [AttachmentController::class, 'destroy']);
+
+
+// Forum
+Route::get('/forum', [ThreadController::class, 'index'])->middleware(['auth'])->name('forum');
+
+Route::resource('threads', ThreadController::class)->except(['index', 'create'])->middleware(['auth']);
+
+Route::resource('threads', ThreadController::class)->only(['show']);
+
+Route::get('/submit_thread', [ThreadController::class, 'getCategory'])->name('threads.category');
+
+
+// Category
+Route::get('/kategori', [ThreadCategoryController::class, 'kategori'])->name('category');
+
+Route::get('/searchThreads', [ThreadCategoryController::class, 'search'])->name('searchThreads');
+
+Route::post('/thread-categories/search', [ThreadCategoryController::class, 'search'])->name('thread-categories.search');
+
+
+// Comment
+Route::resource('threads.comments', CommentController::class)->only(['store'])->middleware(['auth', 'AnggotaPengurus']);
+
+
+// User
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update'])->middleware(['auth']);
+
+Route::get('profile', [UserController::class, 'profile'])->name('profile')->middleware(['auth']);
+
+
+// Like/unlike
+Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->name('threads.like')->middleware(['auth', 'AnggotaPengurus']);
+
+Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth', 'AnggotaPengurus']);
+
 
 // Route::group(['prefix' => 'threads', 'as' => 'threads.', 'middleware' => ['auth']], function () {
 
@@ -65,46 +94,3 @@ Route::get('/forum', [ThreadController::class, 'index'])->name('forum');
 //         Route::post('/{thread}/comments', [CommentController::class, 'store'])->name('comments.store');
 //     });
 // });
-
-Route::resource('threads', ThreadController::class)->except(['index', 'create'])->middleware(['auth']);
-
-Route::resource('threads', ThreadController::class)->only(['show']);
-
-//kategori
-Route::get('/kategori', [ThreadCategoryController::class, 'kategori'])->name('category');
-
-Route::get('/searchThreads', [ThreadCategoryController::class, 'search'])->name('searchThreads');
-
-Route::post('/thread-categories/search', [ThreadCategoryController::class, 'search'])->name('thread-categories.search');
-
-//submit thread
-Route::get('/submit_thread', [ThreadController::class, 'getCategory'])->name('threads.category');
-
-//komen
-Route::resource('threads.comments', CommentController::class)->only(['store'])->middleware(['auth', 'AnggotaPengurus']);
-
-//user
-Route::resource('users', UserController::class)->only(['show', 'edit', 'update'])->middleware(['auth']);
-
-Route::get('profile', [UserController::class, 'profile'])->name('profile')->middleware(['auth']);
-
-//like/unlike
-Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->name('threads.like')->middleware(['auth', 'AnggotaPengurus']);
-
-Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth', 'AnggotaPengurus']);
-
-// Route::get('/terms', function () {
-//     return view('forum.shared.terms');
-// })->name('terms');
-
-// Route::middleware(['auth', 'AnggotaPengurus'])->group(function () {
-//     Route::get('/submit_thread', function () {
-//         return view('threads.shared.submit_thread');
-//     });
-// });
-
-// ********** Anggota Routes *********
-
-// ********** Pengurus Routes *********
-
-// ********** Admin Routes *********

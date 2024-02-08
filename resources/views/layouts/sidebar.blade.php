@@ -4,7 +4,7 @@
         <div class="card overflow-hidden">
             <div class="card-body pt-3">
                 <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
-                    @if (Auth::user()->role == 2)
+                    @if (Auth::user()->role == 2 || Auth::user()->role == 3)
                     <li class="nav-item">
                         <a class="{{ Route::is('forum') ? ' text-black' : ''}}" href="{{route('forum')}}">
                             <span>Internal</span></a>

@@ -6,7 +6,7 @@
                 <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
                     <li class="nav-item">
                         <a class="{{ Route::is('users') ? ' text-black' : ''}}" href="{{route('admin.users')}}">
-                            <span>Data Users</span></a>
+                            <span>Users Account</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="{{ Route::is('manage-role') ? ' text-black' : ''}}" href="{{route('manageRole')}}">
