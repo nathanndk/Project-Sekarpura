@@ -25,7 +25,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="category_id" class="form-label">Thread Category</label>
-                        <select name="thread_category_id" id="category_id" required class="form-control" style="border: 1px solid;">
+                        <select name="thread_category_id" id="category_id" class="form-control" style="border: 1px solid;">
                             <option value="">Select Category</option>
                             @foreach ($threadCategories as $category)
                                 <option value="{{ $category->id }}">{{ $category->category }}</option>

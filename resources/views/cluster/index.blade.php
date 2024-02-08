@@ -2,13 +2,17 @@
 
 @section('content')
 
-    <div class="container mt-5">
-        @include('layouts.sidebar_cluster')
-        @include('cluster.shared.submit_category')
-
-        <div class="row">
-
-            @include('cluster.shared.category_card')
+<div class="row">
+    @include('layouts.sidebar_cluster')
+    <div class="col-6">
+        @include('shared.success_message')
+        <div class="mt-3">
+            @include('cluster.shared.submit_category')
         </div>
+
+
+        @include('cluster.shared.category_card')
+        <hr>
     </div>
+</div>
 @endsection

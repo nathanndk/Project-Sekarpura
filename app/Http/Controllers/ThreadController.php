@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Thread;
 use App\Models\ThreadCategory;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
@@ -62,7 +64,6 @@ class ThreadController extends Controller
         ]);
 
         $thread = new Thread;
-
         $thread->title = $request->title;
         $thread->content = $request->content;
         $thread->status = auth()->user()->role == 3 ? 'approved' : 'pending';
@@ -74,14 +75,22 @@ class ThreadController extends Controller
         $thread->forum_type_id = '1';
         $thread->thread_category_id = $request->thread_category_id;
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('your_storage_path', $fileName);
-            $thread->file = $fileName;
-        }
-
         $thread->save();
+
+        // Mendapatkan pengguna dengan peran (role) 3
+        $adminUser = User::where('role', 3)->first();
+
+        // Buat notifikasi
+        $notification = new Notification;
+        $notification->ref_id = $thread->id; // ID thread yang baru saja dibuat
+        $notification->modules = 'threads';
+        $notification->keterangan = auth()->user()->name . ' request to make a thread: "' . $thread->title . '"';
+        $notification->isRead = 0;
+        $notification->created_at = now();
+        $notification->updated_at = now();
+        $notification->user_id = $adminUser->id;
+
+        $notification->save();
 
         $approvalMessage = auth()->user()->role == 3 ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
 

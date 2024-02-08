@@ -5,6 +5,7 @@ use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ThreadUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ThreadCategoryController;
@@ -76,6 +77,12 @@ Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->na
 
 Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth', 'AnggotaPengurus']);
 
+// Notification
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications')->middleware(['auth']);
+
+Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show')->middleware(['auth']);
+
+Route::put('/notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update')->middleware(['auth']);
 
 // Route::group(['prefix' => 'threads', 'as' => 'threads.', 'middleware' => ['auth']], function () {
 

@@ -5,8 +5,8 @@
             @method('PUT')
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-            <img style="width:150px" class="me-3 avatar-sm rounded-circle"
-                    src="{{ $user-> getImageURL()}}" alt="{{ $user->name }}">
+                <img style="width: 150px; height: 150px; object-fit: cover;" class="me-3 avatar-sm rounded-circle"
+                src="{{ $user->getImageURL() }}" alt="{{ $user->name }}">
                 <div>
                     <input name ="name" value="{{ $user->name }}" type="text" class="form-control">
                     @error('name')
@@ -16,7 +16,7 @@
             </div>
             @auth
             @if (Auth::id() === $user->id)
-            <a href="{{route('users.edit', $user->id)}}">Edit</a>
+            <a href="{{route('users.edit', $user->id)}}" class="text-black text-decoration-none">Edit</a>
             @endif
             @endauth
         </div>

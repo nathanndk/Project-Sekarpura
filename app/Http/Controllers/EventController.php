@@ -148,20 +148,16 @@ class EventController extends Controller
     public function dragEvent(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'eventId' => 'required|exists:events,id',
+            'eventId' => 'required',
             'newStart' => 'required|date_format:Y-m-d H:i:s',
-            'newEnd' => 'required|date_format:Y-m-d H:i:s|after:newStart',
+            'newEnd' => 'required|date_format:Y-m-d H:i:s|after:startTime',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
 
         $eventId = $request->input('eventId');
         $newStart = $request->input('newStart');
         $newEnd = $request->input('newEnd');
 
-        $event = Event::findOrFail($eventId);
+        $event = Event::find($eventId);
         $event->start_time = $newStart;
         $event->end_time = $newEnd;
         $event->updated_at = now();

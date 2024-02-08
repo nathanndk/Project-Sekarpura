@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ThreadCategoriesTableSeeder::class,
             RolesTablesSeeder::class,
             EventsTableSeeder::class,
+            // NotificationsTableSeeder::class,
         ]);
     }
 }

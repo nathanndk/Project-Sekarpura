@@ -112,9 +112,10 @@ class ThreadCategoryController extends Controller
 
 
     public function CategorySorting()
-    {
-        $threadCategories = ThreadCategory::all();
+{
+    $threadCategories = ThreadCategory::all();
 
-        return view('forum.shared.kategori', compact('threadCategories'));
-    }
+    return view('forum.shared.category', compact('threadCategories'));
+}
+
 }
