@@ -135,10 +135,8 @@ class EventController extends Controller
         return response()->json(['message' => 'Event Updated Successfully', 'event' => $event]);
     }
 
-    public function destroy($id)
+    public function destroy(Event $event)
     {
-        $event = Event::find($id);
-
         if ($event) {
             $event->delete();
             return response()->json(['message' => 'Event Deleted Successfully']);
@@ -150,16 +148,20 @@ class EventController extends Controller
     public function dragEvent(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'eventId' => 'required',
+            'eventId' => 'required|exists:events,id',
             'newStart' => 'required|date_format:Y-m-d H:i:s',
-            'newEnd' => 'required|date_format:Y-m-d H:i:s|after:startTime',
+            'newEnd' => 'required|date_format:Y-m-d H:i:s|after:newStart',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
 
         $eventId = $request->input('eventId');
         $newStart = $request->input('newStart');
         $newEnd = $request->input('newEnd');
 
-        $event = Event::find($eventId);
+        $event = Event::findOrFail($eventId);
         $event->start_time = $newStart;
         $event->end_time = $newEnd;
         $event->updated_at = now();
@@ -168,4 +170,5 @@ class EventController extends Controller
 
         return response()->json(['message' => 'Event Updated Successfully']);
     }
+
 }

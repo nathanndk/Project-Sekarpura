@@ -28,7 +28,7 @@
                     @auth
                         @if (Auth::user()->role == 3)
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                            <a class="nav-link {{ (Route::is('events.index')) ? 'active' : '' }}" href="{{ route('events.index') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>

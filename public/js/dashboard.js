@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formDataObject[key] = value;
         });
 
-        fetch('/create-event', {
+        fetch('/events/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 endTime: updatedEndTime
             };
 
-            fetch('/update-event', {
+            fetch('/events/{event}/edit', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function deleteEvent(eventId) {
-        fetch('/delete-event/' + eventId, {
+        fetch('/delete/' + eventId, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

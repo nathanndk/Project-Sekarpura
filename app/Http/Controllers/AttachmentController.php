@@ -8,18 +8,6 @@ use Illuminate\Http\Request;
 
 class AttachmentController extends Controller
 {
-    public function destroy($id)
-    {
-        $attachment = Attachment::find($id);
-
-        if ($attachment) {
-            $attachment->delete();
-            return response()->json(['message' => 'Attachment Deleted Successfully'], 200);
-        } else {
-            return response()->json(['error' => 'Attachment Not Found'], 404);
-        }
-    }
-
     public function store(Request $request)
     {
         $file = $request->file('file');
@@ -45,5 +33,15 @@ class AttachmentController extends Controller
         $attachment->save();
 
         return response()->json(['message' => 'File Uploaded Successfully'], 200);
+    }
+
+    public function destroy(Attachment $attachment)
+    {
+        if ($attachment) {
+            $attachment->delete();
+            return response()->json(['message' => 'Attachment Deleted Successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Attachment Not Found'], 404);
+        }
     }
 }

@@ -341,7 +341,7 @@
                         endTime: updatedEndTime
                     };
 
-                    fetch('/update-event', {
+                    fetch('/events/{event}/edit', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -375,7 +375,7 @@
             });
 
             function deleteEvent(eventId) {
-                fetch('/delete-event/' + eventId, {
+                fetch('/delete/' + eventId, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -536,7 +536,7 @@
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                                     $.ajax({
-                                        url: '/delete-attachment/' + attachmentId,
+                                        url: '/delete/' + attachmentId,
                                         type: 'DELETE',
                                         headers: {
                                             'X-CSRF-TOKEN': csrfToken
@@ -577,7 +577,7 @@
                                     formData.append('events_id', selectedEventId);
 
                                     $.ajax({
-                                        url: '/upload-attachment',
+                                        url: '/attachments',
                                         type: 'POST',
                                         data: formData,
                                         contentType: false,

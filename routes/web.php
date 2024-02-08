@@ -26,21 +26,21 @@ Route::get('/', [EventController::class, 'index'])->name('dashboard');
 
 
 // Event
-Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
 
-Route::post('/create-event', [EventController::class, 'store']);
+Route::post('/events/create', [EventController::class, 'store'])->name('events.store');
 
-Route::put('/update-event', [EventController::class, 'update']);
+Route::put('/events/{event}/edit', [EventController::class, 'update'])->name('events.update');
 
-Route::delete('/delete-event/{id}', [EventController::class, 'destroy']);
+Route::delete('/delete/{event}', [EventController::class, 'destroy'])->name('events.destroy');
 
-Route::put('/drag-event', [EventController::class, 'dragEvent']);
+Route::put('/drag-event', [EventController::class, 'dragEvent'])->name('events.drag');
 
 
 // Attachment
-Route::post('/upload-attachment', [AttachmentController::class, 'store']);
+Route::post('/attachments', [AttachmentController::class, 'store'])->name('attachments.store');
 
-Route::delete('/delete-attachment/{id}', [AttachmentController::class, 'destroy']);
+Route::delete('/delete/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 
 
 // Forum
