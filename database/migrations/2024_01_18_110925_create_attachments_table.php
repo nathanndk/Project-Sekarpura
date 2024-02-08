@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,8 +18,8 @@ return new class extends Migration
             $table->string('created_by', 100);
             $table->dateTime('updated_at')->nullable();
             $table->string('updated_by', 100)->nullable();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('events_id')->constrained('events');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('events_id')->constrained('events')->cascadeOnDelete();
         });
     }
 

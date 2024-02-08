@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('created_by', 100);
             $table->dateTime('updated_at')->nullable();
             $table->string('updated_by', 100)->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
         });
     }
 

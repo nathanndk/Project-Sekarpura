@@ -37,7 +37,7 @@
                 <div class="d-flex align-items-center">
 
                     @auth
-                    <h3 class="welcome-heading">Hi {{ Auth::user()->username }}!</h3>
+                    <h3 id="welcome-heading" class="welcome-heading">Hi {{ Auth::user()->username }}!</h3>
                     @endauth
 
                     @include('event.shared.add_event_button')
