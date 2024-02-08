@@ -2,15 +2,19 @@
 
 @section('content')
     <div class="container py-4">
-            @include('layouts.sidebar_approval')
+            @include('layouts.sidebar')
             <div class="col-6">
                 @include('shared.success_message')
+                {{-- hilangkan tombol submit thread jika role admin --}}
+                @auth
+                <a href="submit-thread" class="btn btn-primary mb-3">+ Create a Thread</a>
+                @endauth
                 @guest
                 <h4>Login to share your ideas</h4>
                 @endguest
                 @forelse ($threads as $thread)
                 <div class="mt-3">
-                    @include('admin.shared.approval')
+                    @include('threads.shared.thread_card')
                 </div>
                 @empty
                 <p class="text-center my-3">No results found</p>

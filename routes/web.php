@@ -44,21 +44,21 @@ Route::delete('/delete/{attachment}', [AttachmentController::class, 'destroy'])-
 
 
 // Forum
-Route::get('/forum', [ThreadController::class, 'index'])->middleware(['auth'])->name('forum');
+Route::get('/threads', [ThreadController::class, 'index'])->middleware(['auth'])->name('forum');
 
 Route::resource('threads', ThreadController::class)->except(['index', 'create'])->middleware(['auth']);
 
 Route::resource('threads', ThreadController::class)->only(['show']);
 
-Route::get('/submit_thread', [ThreadController::class, 'getCategory'])->name('threads.category');
+Route::get('/submit-thread', [ThreadController::class, 'getCategory'])->name('threads.category');
 
 
 // Category
-Route::get('/kategori', [ThreadCategoryController::class, 'kategori'])->name('category');
+Route::get('/categories-sorting', [ThreadCategoryController::class, 'CategorySorting'])->name('categories.sorting');
 
-Route::get('/searchThreads', [ThreadCategoryController::class, 'search'])->name('searchThreads');
+Route::get('/threads-sorting', [ThreadCategoryController::class, 'search'])->name('threads.sorting');
 
-Route::post('/thread-categories/search', [ThreadCategoryController::class, 'search'])->name('thread-categories.search');
+Route::post('/categories/search', [ThreadCategoryController::class, 'search'])->name('thread-categories.search');
 
 
 // Comment

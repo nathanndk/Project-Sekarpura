@@ -15,7 +15,7 @@ class ThreadCategoryController extends Controller
     {
         $threadCategories = ThreadCategory::all();
 
-        return view('cluster.dashboard', compact('threadCategories'));
+        return view('cluster.index', compact('threadCategories'));
     }
 
     /**
@@ -103,15 +103,18 @@ class ThreadCategoryController extends Controller
 
         $threads = Thread::whereHas('threadCategories', function ($query) use ($selectedCategories) {
             $query->whereIn('id', $selectedCategories);
-        })->get();
+        })
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view('forum.shared.search_kategori', compact('threads'));
     }
 
-    public function kategori()
-    {
-        $categories = ThreadCategory::all();
 
-        return view('forum.shared.kategori', compact('categories'));
+    public function CategorySorting()
+    {
+        $threadCategories = ThreadCategory::all();
+
+        return view('forum.shared.kategori', compact('threadCategories'));
     }
 }

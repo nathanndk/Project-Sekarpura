@@ -34,7 +34,7 @@
                             <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('admin.dashboard')) ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Approval</a>
+                            <a class="nav-link {{ (Route::is('admin.index')) ? 'active' : '' }}" href="{{ route('admin.index') }}">Approval</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('category')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>

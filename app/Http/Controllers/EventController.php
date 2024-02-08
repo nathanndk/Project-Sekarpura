@@ -14,7 +14,7 @@ class EventController extends Controller
     {
         $data = $this->getEventsData();
 
-        return view('event.dashboard', $data);
+        return view('event.index', $data);
     }
 
     public function getEventsData()

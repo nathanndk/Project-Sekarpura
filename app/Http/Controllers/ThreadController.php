@@ -30,7 +30,7 @@ class ThreadController extends Controller
             return redirect()->route('forum', ['forum_type' => $forumType])->with('threads', $threads);
         }
 
-        return view('forum.dashboard', [
+        return view('forum.index', [
             'threads' => $threads,
         ]);
     }
@@ -85,7 +85,7 @@ class ThreadController extends Controller
 
         $approvalMessage = auth()->user()->role == 3 ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
 
-        return redirect('/forum')->with('success', $approvalMessage);
+        return redirect('/threads')->with('success', $approvalMessage);
     }
 
     public function destroy(Thread $thread)

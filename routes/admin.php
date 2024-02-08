@@ -7,7 +7,7 @@ use App\Http\Controllers\ThreadCategoryController;
 use App\Http\Controllers\ThreadController;
 
 // Admin Dashboard
-Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware(['auth', 'Admin']);
+Route::get('/admin', [DashboardController::class, 'index'])->name('admin.index')->middleware(['auth', 'Admin']);
 
 
 // Show all user
@@ -28,6 +28,6 @@ Route::put('threads/{thread}/reject', [DashboardController::class, 'reject'])->n
 // Clustering
 Route::get('/cluster', [ThreadCategoryController::class, 'index'])->name('cluster');
 
-Route::resource('category', ThreadCategoryController::class)->except(['index', 'create'])->middleware(['auth', 'Admin']);
+Route::resource('categories', ThreadCategoryController::class)->except(['index', 'create'])->middleware(['auth', 'Admin']);
 
 

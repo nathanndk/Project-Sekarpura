@@ -23,7 +23,7 @@ class DashboardController extends Controller
         // Ambil hasil query
         $threads = $threads->paginate(5);
 
-        return view('admin.dashboard', [
+        return view('admin.index', [
             'threads' => $threads,
         ]);
     }
@@ -34,7 +34,7 @@ class DashboardController extends Controller
 
     $thread->update(['status' => 'approved']);
 
-    return redirect()->route('admin.dashboard')->with('success', 'Thread approved successfully.');
+    return redirect()->route('admin.index')->with('success', 'Thread approved successfully.');
 }
 
     public function reject(Thread $thread)
@@ -43,6 +43,6 @@ class DashboardController extends Controller
 
         $thread->update(['status' => 'rejected']);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Thread rejected successfully.');
+        return redirect()->route('admin.index')->with('success', 'Thread rejected successfully.');
     }
 }

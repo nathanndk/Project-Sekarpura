@@ -1,7 +1,7 @@
 @auth
 <h4> Make a New Category </h4>
 <div class="row">
-    <form action="{{ route('category.store') }}" method="post">
+    <form action="{{ route('categories.store') }}" method="post">
         @csrf
         <div class="mb-3">
             <textarea class="form-control" id="category" name="category" rows="3"></textarea>
