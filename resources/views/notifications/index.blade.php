@@ -6,11 +6,11 @@
         <div class="col-lg-6">
             @include('shared.success_message')
             <div class="mt-3">
-                <div class="card mb-3 mx-auto"> <!-- Tambahkan kelas mx-auto di sini -->
+                <div class="card mb-3 mx-auto">
                     <div class="card-body">
                         <h5 class="card-title">Notification</h5>
                         @foreach($notifications as $notification)
-                        <div class="notification-card mb-3 p-3 border{{ $notification->isRead ? '' : ' bg-info text-black' }}">
+                        <div class="notification-card mb-3 p-3 border{{ $notification->isRead ? '' : ' bg-warning text-black' }}">
                             <p class="mb-1{{ $notification->isRead ? '' : ' text-black' }}">{{ $notification->keterangan }}</p>
                             <p class="text-muted mb-0{{ $notification->isRead ? '' : ' text-black' }}">{{ $notification->created_at->diffForHumans() }}</p>
                             @if (!$notification->isRead)
