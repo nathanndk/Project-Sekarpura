@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('modules');
             $table->text('keterangan');
             $table->boolean('isRead')->default(false);
+            $table->string('created_by', 100);
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users');
         });

@@ -36,10 +36,10 @@
                             <a class="nav-link {{ (Route::is('events.index')) ? 'active' : '' }}" href="{{ route('events.index') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                            <a class="nav-link {{ (Route::is('forum', ["forum_type_id"=>2])) ? 'active' : '' }}" href="{{ route('forum', ["forum_type_id"=>2]) }}">Forum</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('admin.index')) ? 'active' : '' }}" href="{{ route('admin.index') }}">Approval</a>
+                            <a class="nav-link {{ Route::is('admin.approval', ["forum_type_id" => 2]) ? 'active' : '' }}" href="{{ route('admin.approval', ["forum_type_id" => 2]) }}">Approval</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('cluster')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>
@@ -52,7 +52,7 @@
                             <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                            <a class="nav-link {{ (Route::is('forum', ["forum_type_id"=>2])) ? 'active' : '' }}" href="{{ route('forum', ["forum_type_id"=>2]) }}">Forum</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('notifications')) ? 'active' : '' }}" href="{{ route('notifications') }}">Notifications</a>
@@ -62,7 +62,7 @@
                                 <a class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ (Route::is('forum')) ? 'active' : '' }}" href="{{ route('forum') }}">Forum</a>
+                                <a class="nav-link {{ (Route::is('forum', ["forum_type_id"=>2])) ? 'active' : '' }}" href="{{ route('forum', ["forum_type_id"=>2]) }}">Forum</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ (Route::is('notifications')) ? 'active' : '' }}" href="{{ route('notifications') }}">Notifications</a>

@@ -13,29 +13,32 @@ class ThreadController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'forum_type_id' => 'required|integer',
+        ]);
+
+        // Memulai query dengan filter status approved dan forum type id
         $threads = Thread::where('status', 'approved')
+            ->where('forum_type_id', $request->forum_type_id)
             ->orderBy('created_at', 'DESC');
 
         // Pencarian Thread
         if ($request->has('search')) {
-            $searchTerm = $request->get('search', '');
-            $threads = $threads->where('title', 'like', '%' . $searchTerm . '%')
-                ->orWhere('content', 'like', '%' . $searchTerm . '%');
+            $searchTerm = $request->get('search');
+            $threads->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('content', 'like', '%' . $searchTerm . '%');
+            });
         }
 
-        // Ambil hasil query
+        // Ambil hasil query dengan pagination
         $threads = $threads->paginate(5);
-
-        // Ccek forum type
-        if ($request->has('forum_type')) {
-            $forumType = $request->get('forum_type');
-            return redirect()->route('forum', ['forum_type' => $forumType])->with('threads', $threads);
-        }
 
         return view('forum.index', [
             'threads' => $threads,
         ]);
     }
+
 
     public function show(Thread $thread)
     {
@@ -74,7 +77,7 @@ class ThreadController extends Controller
         $thread->updated_at = now();
         $thread->updated_by = auth()->id();
         $thread->user_id = auth()->id();
-        $thread->forum_type_id = '1';
+        $thread->forum_type_id = $request->forum_type_id;
         $thread->thread_category_id = $request->thread_category_id;
 
         $thread->save();
@@ -90,6 +93,7 @@ class ThreadController extends Controller
             $notification->keterangan = auth()->user()->name . ' request to make a thread: "' . $thread->title . '"';
             $notification->isRead = 0;
             $notification->created_at = now();
+            $notification->created_by = Auth::id();
             $notification->updated_at = now();
             $notification->user_id = $adminUser->id;
 
@@ -98,7 +102,7 @@ class ThreadController extends Controller
 
         $approvalMessage = $isAdmin ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
 
-        return redirect('/threads')->with('success', $approvalMessage);
+        return redirect()->route('forum', ["forum_type_id" => $request->forum_type_id])->with('success', $approvalMessage);
     }
 
 

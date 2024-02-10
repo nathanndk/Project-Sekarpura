@@ -13,18 +13,18 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $threads = $user->threads()->paginate(5);
+        // Mendapatkan thread yang memiliki status "approved"
+        $threads = $user->threads()->where('status', 'approved')->paginate(5);
 
         return view('users.show', compact('user', 'threads'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
+        // Mendapatkan thread yang memiliki status "approved"
+        $threads = $user->threads()->where('status', 'approved')->paginate(5);
+
         $editing = true;
-        $threads = $user->threads()->paginate(5);
 
         return view('users.edit', compact('user', 'editing', 'threads'));
     }
@@ -56,7 +56,6 @@ class UserController extends Controller
     public function profile()
     {
         return $this->show(auth()->user());
-
     }
 
 }

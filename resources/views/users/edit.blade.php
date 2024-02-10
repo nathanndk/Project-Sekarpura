@@ -1,3 +1,7 @@
+@php
+    $forum_type_id = request()->get('forum_type_id');
+@endphp
+
 @extends('layouts.header')
 
 @section('content')

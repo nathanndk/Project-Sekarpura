@@ -4,10 +4,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ThreadCategoryController;
-use App\Http\Controllers\ThreadController;
 
-// Admin Dashboard
-Route::get('/admin', [DashboardController::class, 'index'])->name('admin.index')->middleware(['auth', 'Admin']);
+// Approval
+Route::get('/approval', [DashboardController::class, 'index'])->name('admin.approval')->middleware(['auth', 'Admin']);
 
 
 // Show all user

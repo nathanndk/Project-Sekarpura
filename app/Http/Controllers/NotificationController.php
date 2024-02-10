@@ -19,12 +19,16 @@ class NotificationController extends Controller
         // Mendapatkan ID pengguna yang sedang masuk
         $userId = Auth::id();
 
-        // Mendapatkan notifikasi yang ditujukan ke pengguna saat ini
-        $notifications = Notification::where('user_id', $userId)->get();
+        // Mendapatkan notifikasi yang ditujukan ke pengguna saat ini, diurutkan dari yang terbaru
+        $notifications = Notification::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
 
         // Mengembalikan tampilan dengan data notifikasi
         return view('notifications.index', compact('notifications'));
     }
+
 
     /**
      * Update the specified notification status to mark it as read.
@@ -46,9 +50,24 @@ class NotificationController extends Controller
 
         // Memastikan thread ditemukan
         if (!$thread) {
-            return redirect()->route('notifications.index')->with('error', 'Thread not found!');
+            return redirect()->route('notifications')->with('error', 'Thread not found!');
         }
 
         return redirect()->route('threads.show', $thread->id);
     }
+
+    public function profile()
+    {
+        // Mendapatkan ID pengguna yang sedang masuk
+        $userId = Auth::id();
+
+        // Mendapatkan notifikasi yang dibuat oleh pengguna saat ini, diurutkan dari yang terbaru
+        $notifications = Notification::where('created_by', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Mengembalikan tampilan dengan data notifikasi
+        return view('notifications.index', compact('notifications'));
+    }
+
 }

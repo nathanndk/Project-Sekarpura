@@ -1,3 +1,5 @@
+
+
 <div class="card">
     <div class="px-3 pt-4 pb-2">
         <div class="d-flex align-items-center justify-content-between">
@@ -56,8 +58,7 @@
         </p>
     @endif
 
-        <div class="d-flex justify-content-between">
-            @include('threads.shared.like_button')
+        <div class="d-flex justify-content-end">
             <div>
                 <span class="fs-6 fw-light text-muted">
                     <span class="fas fa-clock"></span> {{ $thread->created_at->diffForHumans() }}

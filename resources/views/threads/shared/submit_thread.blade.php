@@ -1,3 +1,7 @@
+@php
+    $forum_type_id = request()->get('forum_type_id');
+@endphp
+
 @extends('layouts.header')
 
 @section('content')
@@ -23,6 +27,10 @@
                         <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="mb-3 d-none">
+                        <label for="forum_type_id" class="form-label">forum_type_id</label>
+                        <input type="hidden" class="form-control" id="forum_type_id" name="forum_type_id" value="{{$forum_type_id}}">
+                    </div>
                     <div class="mb-3">
                         <label for="category_id" class="form-label">Thread Category</label>
                         <select name="thread_category_id" id="category_id" class="form-control" style="border: 1px solid;">
@@ -32,8 +40,6 @@
                             @endforeach
                             <option value="custom">Custom</option>
                         </select>
-
-
                         <div id="custom_category_form" style="display: none;">
                             <label for="custom_thread_category" class="form-label">Custom Category</label>
                             <input type="text" class="form-control" id="custom_thread_category" name="custom_thread_category">

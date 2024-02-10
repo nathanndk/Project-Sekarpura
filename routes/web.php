@@ -73,9 +73,9 @@ Route::get('profile', [UserController::class, 'profile'])->name('profile')->midd
 
 
 // Like/unlike
-Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->name('threads.like')->middleware(['auth', 'AnggotaPengurus']);
+Route::post('threads/{thread}/like', [ThreadUserController::class, 'store'])->name('threads.like')->middleware(['auth']);
 
-Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth', 'AnggotaPengurus']);
+Route::post('threads/{thread}/unlike', [ThreadUserController::class, 'delete'])->name('threads.unlike')->middleware(['auth']);
 
 // Notification
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications')->middleware(['auth']);

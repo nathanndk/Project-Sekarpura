@@ -1,3 +1,7 @@
+@php
+    $forum_type_id = request()->get('forum_type_id');
+@endphp
+
 @extends('layouts.header')
 
 @section('content')
@@ -21,7 +25,7 @@
             </div>
         </div>
         <div class="col-3">
-            @include('shared.search_bar')
+            @include('shared.search_bar_approval')
             @include('forum.shared.category')
         </div>
     </div>

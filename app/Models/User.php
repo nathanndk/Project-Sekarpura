@@ -59,7 +59,8 @@ class User extends Authenticatable
         return $this->hasMany(Attachment::class, 'user_id', 'id');
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class)->latest();
     }
 
@@ -68,7 +69,8 @@ class User extends Authenticatable
         return $this->belongsToMany(ForumType::class, 'user_forum_type', 'user_id', 'forum_type_id');
     }
 
-    public function threads(){
+    public function threads()
+    {
         return $this->hasMany(Thread::class)->latest();
     }
 
@@ -77,23 +79,26 @@ class User extends Authenticatable
         return $this->hasMany(Event::class, 'user_id', 'id');
     }
 
-    public function likes(){
+    public function likes()
+    {
         return $this->belongsToMany(Thread::class)->withTimestamps();
     }
 
-    public function likesPost(Thread $thread){
+    public function likesPost(Thread $thread)
+    {
         return $this->likes()->where('thread_id', $thread->id)->exists();
     }
 
     public function roles()
     {
-        return $this->hasOne(Role::class,'id', 'role');
+        return $this->hasOne(Role::class, 'id', 'role');
     }
 
-    public function getImageURL(){
-        if($this->image){
-            return url('storage/'.$this->image);
+    public function getImageURL()
+    {
+        if ($this->image) {
+            return url('storage/' . $this->image);
         }
-        return "https://api.dicebear.com/6.x/fun-emoji/svg?seed={$this->name}";
+        return "/images/user_avatar_placeholder.png";
     }
 }

@@ -1,3 +1,7 @@
+@php
+    $forum_type_id = request()->get('forum_type_id');
+@endphp
+
 @extends('layouts.header')
 
 @section('content')
@@ -7,7 +11,7 @@
                 @include('shared.success_message')
                 {{-- hilangkan tombol submit thread jika role admin --}}
                 @auth
-                <a href="submit-thread" class="btn btn-primary mb-3">+ Create a Thread</a>
+                <a href="{{route('threads.category', ["forum_type_id"=>$forum_type_id])}}" class="btn btn-primary mb-3">+ Create a Thread</a>
                 @endauth
                 @guest
                 <h4>Login to share your ideas</h4>
