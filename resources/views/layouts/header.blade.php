@@ -42,7 +42,7 @@
                             <a class="nav-link {{ (Route::is('admin.index')) ? 'active' : '' }}" href="{{ route('admin.index') }}">Approval</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('category')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>
+                            <a class="nav-link {{ (Route::is('cluster')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('notifications')) ? 'active' : '' }}" href="{{ route('notifications') }}">Notifications</a>

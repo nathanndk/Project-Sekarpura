@@ -3,9 +3,16 @@
 @section('content')
 <div class="container py-4">
     <div class="row">
-        @include('layouts.sidebar_cluster')
-        <div class="col-12">
-            <h2 class="mb-4">Users</h2>
+
+            @include('layouts.sidebar_cluster')
+
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-4">Users Account</h2>
+                </div>
+
+                <div class="card-body">
 
             <table class="table table-bordered">
                 <thead>

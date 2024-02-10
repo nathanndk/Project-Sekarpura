@@ -9,19 +9,19 @@
             <div class="modal-body">
                 <form id="eventForm">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                        <label for="title" class="form-label" style="font-weight: 600;">Title <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="title" name="title" required maxlength="30">
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description (Optional)</label>
+                        <label for="description" class="form-label" style="font-weight: 600;">Description (Optional)</label>
                         <textarea class="form-control" id="description" name="description" maxlength="50"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="startTime" class="form-label">Start at <span class="text-danger">*</span></label>
+                        <label for="startTime" class="form-label" style="font-weight: 600;">Start at <span class="text-danger">*</span></label>
                         <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
                     </div>
                     <div class="mb-3">
-                        <label for="endTime" class="form-label">End at <span class="text-danger">*</span></label>
+                        <label for="endTime" class="form-label" style="font-weight: 600;">End at <span class="text-danger">*</span></label>
                         <input type="datetime-local" class="form-control" id="endTime" name="endTime" required>
                     </div>
                 </form>

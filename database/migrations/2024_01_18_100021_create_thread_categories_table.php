@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('thread_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('category', 30);
+            $table->string('category', 30)->cascadeOnDelete();
             $table->dateTime('created_at')->nullable();
             $table->string('created_by', 100)->nullable();
             $table->dateTime('updated_at')->nullable();

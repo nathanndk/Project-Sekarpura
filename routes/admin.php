@@ -30,4 +30,6 @@ Route::get('/cluster', [ThreadCategoryController::class, 'index'])->name('cluste
 
 Route::resource('categories', ThreadCategoryController::class)->except(['index', 'create'])->middleware(['auth', 'Admin']);
 
+// Route::get('/categories/edit', [ThreadCategoryController::class, 'getCategoriesEdit'])->name('categories.edit')->middleware(['auth']);
+
 

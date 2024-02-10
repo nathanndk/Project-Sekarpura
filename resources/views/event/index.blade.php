@@ -35,47 +35,63 @@
         <div class="col-md-4">
             <div class="container" id="today-agenda-container">
                 <div class="d-flex align-items-center">
-
                     @auth
-                    <h3 id="welcome-heading" class="welcome-heading">Hi {{ Auth::user()->username }}!</h3>
+                        <h3 id="welcome-heading" class="welcome-heading">Hi, {{ Auth::user()->username }}!</h3>
                     @endauth
-
                     @include('event.shared.add_event_button')
 
                 </div>
-                <div class="d-flex align-items-center">
 
-                   @include('event.shared.see_attachments_button')
-                </div>
+                @auth
+                    @if (Auth::user()->role == 3)
+                        <div class="d-flex align-items-center">
+                            @include('event.shared.see_attachments_button')
+                        </div>
+                    @elseif (Auth::user()->role == 2)
+                        <div class="d-flex align-items-center">
+                            @include('event.shared.see_attachments_button')
+                        </div>
+                    @elseif (Auth::user()->role == 1)
+                        <div class="d-flex align-items-center">
+                            @include('event.shared.see_attachments_button')
+                        </div>
+                    @endif
+                @endauth
 
-                <ul class="today-agenda">
+                @if ($todayEvents->isNotEmpty())
+                    <ul class="today-agenda" style="margin-top: 20px;">
+                        <h5 class="agenda-heading">Today's Agenda</h5>
+                        <hr id="attachmentBorder1">
+                        @foreach($todayEvents as $event)
+                            <li class="event-list-item" data-event-id="{{ $event->id }}" style="background-color: {{ $colors[array_rand($colors)] }};"
+                                data-eventid="{{ $event->id }}"
+                                data-title="{{ $event->title }}"
+                                data-description="{{ $event->description ? $event->description : '-' }}"
+                                data-start-time="{{ \Carbon\Carbon::parse($event->start_time)->locale('id')->format('l, d/m/Y H:i:s') }}"
+                                data-end-time="{{ \Carbon\Carbon::parse($event->end_time)->locale('id')->format('l, d/m/Y H:i:s') }}"
+                                data-created_at="{{ \Carbon\Carbon::parse($event->created_at)->locale('id')->format('l, d/m/Y H:i:s') }}"
+                                data-created_by="{{ $event->created_by }}">
+                                <img src="{{ asset('images/events.png') }}" class="events-image"> {{ $event->title }}<br>
+                                <img src="{{ asset('images/description.png') }}" class="description-image">
+                                    @if($event->description)
+                                        {{ $event->description }}
+                                    @else
+                                        -
+                                    @endif
+                                <br>
+                                <img src="{{ asset('images/clock.png') }}" class="clock-image"></i> {{ \Carbon\Carbon::parse($event->start_time)->locale('id')->format(('l, d F Y')) }} at {{ \Carbon\Carbon::parse($event->start_time)->locale('id')->format('H:i') }}<br>
+                                <img src="{{ asset('images/person.png') }}" class="person-image"> {{ $event->created_by }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                <ul class="today-agenda" style="margin-top: 20px;">
                     <h5 class="agenda-heading">Today's Agenda</h5>
-                    @foreach($todayEvents as $event)
-                        <li class="event-list-item" data-event-id="{{ $event->id }}" style="background-color: {{ $colors[array_rand($colors)] }};"
-                            data-eventid="{{ $event->id }}"
-                            data-title="{{ $event->title }}"
-                            data-description="{{ $event->description ? $event->description : '-' }}"
-                            data-start-time="{{ \Carbon\Carbon::parse($event->start_time)->locale('id')->format('l, d/m/Y H:i:s') }}"
-                            data-end-time="{{ \Carbon\Carbon::parse($event->end_time)->locale('id')->format('l, d/m/Y H:i:s') }}"
-                            data-created_at="{{ \Carbon\Carbon::parse($event->created_at)->locale('id')->format('l, d/m/Y H:i:s') }}"
-                            data-created_by="{{ $event->created_by }}">
-                            <i class="bi bi-calendar-event"></i> {{ $event->title }}<br>
-                            <i class="bi bi-bookmark-check"></i>
-                                @if($event->description)
-                                    {{ $event->description }}
-                                @else
-                                    -
-                                @endif
-                            <br>
-                            <i class="bi bi-alarm"></i> {{ \Carbon\Carbon::parse($event->start_time)->locale('id')->format('l, d/m/Y H:i:s') }} -
-                                @if(\Carbon\Carbon::parse($event->start_time)->format('Y-m-d') !== \Carbon\Carbon::parse($event->end_time)->format('Y-m-d'))
-                                    {{ \Carbon\Carbon::parse($event->end_time)->locale('id')->format('l, d/m/Y H:i:s') }}
-                                @else
-                                    {{ \Carbon\Carbon::parse($event->end_time)->locale('id')->format('H:i:s') }}
-                                @endif
-                        </li>
-                    @endforeach
+                    <hr id="attachmentBorder1">
+                    <img src="{{ asset('images/noevents.png') }}" class="noevents-image">
+                    <p class="no-event-message">No Event(s) Today!</i></p>
                 </ul>
+                @endif
 
                 @include('event.shared.upcoming_agenda')
 
@@ -100,7 +116,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,list',
                 },
                 initialView: 'dayGridMonth',
                 themeSystem: 'bootstrap5',
@@ -109,18 +125,22 @@
                 eventDisplay: 'block',
                 timeFormat: null,
                 @auth
-                @if (Auth::user()->role == 3)
-                editable: true,
-                eventStartEditable: true,
-                eventResizable: true,
-                eventResizableFromStart: true,
-                @elseif (Auth::user()->role == 2)
-                editable: true,
-                eventStartEditable: true,
-                eventResizable: true,
-                eventResizableFromStart: true,
-                @endif
+                    @if (Auth::user()->role == 3)
+                        editable: true,
+                        eventStartEditable: true,
+                        eventResizable: true,
+                        eventResizableFromStart: true,
+                    @elseif (Auth::user()->role == 2)
+                        editable: true,
+                        eventStartEditable: true,
+                        eventResizable: true,
+                        eventResizableFromStart: true,
+                    @endif
                 @endauth
+
+                eventMouseEnter: function(info) {
+                    info.el.style.cursor = 'pointer';
+                },
 
                 eventDragStart: function (info) {
                     dragConfirmBtn.style.display = 'block';
@@ -145,7 +165,7 @@
                     selectedEventId = info.event.extendedProps.id || info.event.id;
 
                     var title = info.event.title;
-                    var description = info.event.extendedProps.description;
+                    var description = info.event.extendedProps.description ? info.event.extendedProps.description : '-';
                     var start_time = moment(info.event.start).format('dddd, DD/MM/YYYY HH:mm:ss');
                     var end_time = moment(info.event.end).format('dddd, DD/MM/YYYY HH:mm:ss');
                     var created_by = info.event.extendedProps.created_by;

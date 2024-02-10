@@ -41,7 +41,7 @@ Route::put('/drag-event', [EventController::class, 'dragEvent'])->name('events.d
 // Attachment
 Route::post('/attachments', [AttachmentController::class, 'store'])->name('attachments.store');
 
-Route::delete('/delete/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
+Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 
 
 // Forum

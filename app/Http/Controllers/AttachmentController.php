@@ -37,11 +37,13 @@ class AttachmentController extends Controller
 
     public function destroy(Attachment $attachment)
     {
-        if ($attachment) {
-            $attachment->delete();
-            return response()->json(['message' => 'Attachment Deleted Successfully'], 200);
-        } else {
-            return response()->json(['error' => 'Attachment Not Found'], 404);
+        $filePath = storage_path("app/public/{$attachment->path}/{$attachment->file}");
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
+
+        $attachment->delete();
+
+        return response()->json(['message' => 'Attachment Deleted Successfully'], 200);
     }
 }

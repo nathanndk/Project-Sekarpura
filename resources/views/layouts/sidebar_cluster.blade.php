@@ -5,11 +5,11 @@
             <div class="card-body pt-3">
                 <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
                     <li class="nav-item">
-                        <a class="{{ Route::is('users') ? ' text-black' : ''}}" href="{{route('admin.users')}}">
+                        <a class="{{ Route::is('admin.users') ? ' text-black' : ''}}" href="{{route('admin.users')}}">
                             <span>Users Account</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="{{ Route::is('manage-role') ? ' text-black' : ''}}" href="{{route('manageRole')}}">
+                        <a class="{{ Route::is('manageRole') ? ' text-black' : ''}}" href="{{route('manageRole')}}">
                             <span>Manage Role</span></a>
                     </li>
                     <li class="nav-item">

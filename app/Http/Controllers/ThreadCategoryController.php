@@ -18,6 +18,13 @@ class ThreadCategoryController extends Controller
         return view('cluster.index', compact('threadCategories'));
     }
 
+    // public function getCategoriesEdit()
+    // {
+    //     $threadCategories = ThreadCategory::all();
+
+    //     return view('cluster.category_edit_card', compact('threadCategories'));
+    // }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -52,14 +59,14 @@ class ThreadCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThreadCategory $threadCategory)
+    public function edit(ThreadCategory $threadCategories)
     {
         $editing = true;
-        $threads = $threadCategory->threads()
+        $threads = $threadCategories->threads()
             ->orderBy('created_at', 'DESC')
             ->paginate(5);
 
-        return view('cluster.show', compact('threadCategory', 'threads', 'editing'));
+        return view('cluster.edit', compact('threadCategories', 'threads', 'editing'));
     }
 
     /**
@@ -85,7 +92,7 @@ class ThreadCategoryController extends Controller
     {
         $threadCategory->delete();
 
-        return redirect()->route('cluster.show');
+        return redirect()->route('cluster');
     }
 
     public function getThreadsByID(ThreadCategory $threadCategory)
@@ -112,10 +119,10 @@ class ThreadCategoryController extends Controller
 
 
     public function CategorySorting()
-{
-    $threadCategories = ThreadCategory::all();
+    {
+        $threadCategories = ThreadCategory::all();
 
-    return view('forum.shared.category', compact('threadCategories'));
-}
+        return view('forum.shared.category', compact('threadCategories'));
+    }
 
 }

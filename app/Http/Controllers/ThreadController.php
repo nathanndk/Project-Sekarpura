@@ -63,10 +63,12 @@ class ThreadController extends Controller
             // 'thread_category_id' => 'required',
         ]);
 
+        $isAdmin = auth()->user()->role == 3;
+
         $thread = new Thread;
         $thread->title = $request->title;
         $thread->content = $request->content;
-        $thread->status = auth()->user()->role == 3 ? 'approved' : 'pending';
+        $thread->status = $isAdmin ? 'approved' : 'pending';
         $thread->created_at = now();
         $thread->created_by = auth()->id();
         $thread->updated_at = now();
@@ -77,25 +79,28 @@ class ThreadController extends Controller
 
         $thread->save();
 
-        // Mendapatkan pengguna dengan peran (role) 3
-        $adminUser = User::where('role', 3)->first();
+        if (!$isAdmin) {
+            // Mendapatkan pengguna dengan peran (role) 3
+            $adminUser = User::where('role', 3)->first();
 
-        // Buat notifikasi
-        $notification = new Notification;
-        $notification->ref_id = $thread->id; // ID thread yang baru saja dibuat
-        $notification->modules = 'threads';
-        $notification->keterangan = auth()->user()->name . ' request to make a thread: "' . $thread->title . '"';
-        $notification->isRead = 0;
-        $notification->created_at = now();
-        $notification->updated_at = now();
-        $notification->user_id = $adminUser->id;
+            // Buat notifikasi
+            $notification = new Notification;
+            $notification->ref_id = $thread->id; // ID thread yang baru saja dibuat
+            $notification->modules = 'threads';
+            $notification->keterangan = auth()->user()->name . ' request to make a thread: "' . $thread->title . '"';
+            $notification->isRead = 0;
+            $notification->created_at = now();
+            $notification->updated_at = now();
+            $notification->user_id = $adminUser->id;
 
-        $notification->save();
+            $notification->save();
+        }
 
-        $approvalMessage = auth()->user()->role == 3 ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
+        $approvalMessage = $isAdmin ? 'Thread created successfully!' : 'Thread created successfully, wait for admin approval!';
 
         return redirect('/threads')->with('success', $approvalMessage);
     }
+
 
     public function destroy(Thread $thread)
     {
@@ -103,7 +108,7 @@ class ThreadController extends Controller
 
         $thread->delete();
 
-        return redirect('/forum')->with('success', 'Thread deleted successfully!');
+        return redirect('/threads')->with('success', 'Thread deleted successfully!');
     }
 
     public function update(Request $request, Thread $thread)

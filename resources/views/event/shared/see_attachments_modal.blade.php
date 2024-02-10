@@ -19,32 +19,29 @@
                     </div>
                 </form>
                 @auth
-                @if (Auth::user()->role == 3)
-                <p id="attachmentText" style="display: none;"><strong>Attachment(s)</strong></p>
-                <hr id="attachmentBorder1" style="display: none;">
-                <input type="file" class="form-control" id="addFileButton" style="display: none;" multiple>
-                <button id="uploadConfirmBtn" style="display: none;">
-                    <i class="bi bi-check2 confirm"></i>
-                </button>
-                <button id="cancelUploadBtn" style="display: none;">
-                    <i class="bi bi-x-lg cancel"></i>
-                </button>
-                <hr id="attachmentBorder2" style="display: none;">
-                @elseif (Auth::user()->role == 2)
-                <p id="attachmentText" style="display: none;"><strong>Attachment(s)</strong></p>
-                <hr id="attachmentBorder1" style="display: none;">
-                <input type="file" class="form-control" id="addFileButton" style="display: none;" multiple>
-                <button id="uploadConfirmBtn" style="display: none;">
-                    <i class="bi bi-check2 confirm"></i>
-                </button>
-                <button id="cancelUploadBtn" style="display: none;">
-                    <i class="bi bi-x-lg cancel"></i>
-                </button>
-                <hr id="attachmentBorder2" style="display: none;">
-                @elseif (Auth::user()->role == 1)
-                <p id="attachmentText" style="display: none; margin-bottom: 10px"><strong>Attachment(s)</strong></p>
-                @endif
+                    @if (Auth::user()->role == 3)
+                        <p id="attachmentText" style="display: none; margin-bottom: 10px"><strong>Attachment(s)</strong></p>
+                        <input type="file" class="form-control" id="addFileButton" style="display: none;" multiple>
+                        <button id="uploadConfirmBtn" style="display: none;">
+                            <i class="bi bi-check2 confirm"></i>
+                        </button>
+                        <button id="cancelUploadBtn" style="display: none;">
+                            <i class="bi bi-x-lg cancel"></i>
+                        </button>
+                    @elseif (Auth::user()->role == 2)
+                        <p id="attachmentText" style="display: none; margin-bottom: 10px"><strong>Attachment(s)</strong></p>
+                        <input type="file" class="form-control" id="addFileButton" style="display: none;" multiple>
+                        <button id="uploadConfirmBtn" style="display: none;">
+                            <i class="bi bi-check2 confirm"></i>
+                        </button>
+                        <button id="cancelUploadBtn" style="display: none;">
+                            <i class="bi bi-x-lg cancel"></i>
+                        </button>
+                    @elseif (Auth::user()->role == 1)
+                        <p id="attachmentText" style="display: none; margin-bottom: 10px"><strong>Attachment(s)</strong></p>
+                    @endif
                 @endauth
+
                 <ul id="additionalElements" style="display: none;">
                     @foreach($files as $attachment)
                         <li class="attachment-list-item"
@@ -60,15 +57,16 @@
                             <i class="bi bi-clock"></i> {{ \Carbon\Carbon::parse($attachment['created_at'])->locale('id')->format('l, d/m/Y H:i:s') }}<br>
                             <button type="button" class="btn btn-primary downloadFileButton">Download</button>
                             @auth
-                            @if (Auth::user()->role == 3)
-                            <button type="button" class="btn btn-danger deleteFileButton">Delete</button>
-                            @elseif (Auth::user()->role == 2)
-                            <button type="button" class="btn btn-danger deleteFileButton">Delete</button>
-                            @endif
+                                @if (Auth::user()->role == 3)
+                                    <button type="button" class="btn btn-danger deleteFileButton">Delete</button>
+                                @elseif (Auth::user()->role == 2)
+                                    <button type="button" class="btn btn-danger deleteFileButton">Delete</button>
+                                @endif
                             @endauth
                         </li>
                     @endforeach
                 </ul>
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         $('#eventName').selectpicker({
@@ -87,30 +85,6 @@
                         eventNameSelect.addEventListener('change', function () {
                             var selectedEventId = eventNameSelect.value;
                             toggleAdditionalElements(selectedEventId);
-                        });
-
-                        deleteFileButtons.forEach(function (button) {
-                            button.addEventListener('click', function () {
-                                var attachmentId = button.closest('.attachment-list-item').getAttribute('data-attachmentid');
-                                var attachmentFile = button.closest('.attachment-list-item').getAttribute('data-attachmentfile');
-                                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-                                $.ajax({
-                                    url: '/delete/' + attachmentId,
-                                    type: 'DELETE',
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrfToken
-                                    },
-                                    success: function (response) {
-                                        $('#deleteAttachmentModal').modal('hide');
-                                        localStorage.setItem('showSuccessModal5', 'true');
-                                        location.reload();
-                                    },
-                                    error: function (error) {
-                                        console.error('Error Deleting Attachment:', error);
-                                    }
-                                });
-                            });
                         });
 
                         fileInput.addEventListener('change', function (event) {
@@ -174,64 +148,78 @@
                                 downloadLink.click();
                             });
                         });
+
+                        deleteFileButtons.forEach(function (button) {
+                            button.addEventListener('click', function () {
+                                var attachmentId = button.closest('.attachment-list-item').getAttribute('data-attachmentid');
+                                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                                $.ajax({
+                                    url: '/attachments/' + attachmentId,
+                                    type: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    success: function (response) {
+                                        localStorage.setItem('showSuccessModal5', 'true');
+                                        location.reload();
+                                    },
+                                    error: function (error) {
+                                        console.error('Error Deleting Attachment:', error);
+                                    }
+                                });
+                            });
+                        });
                     });
 
                     @auth
-                    @if (Auth::user()->role == 3)
-                    function toggleAdditionalElements(selectedEventId) {
-                        var attachmentText = document.getElementById('attachmentText');
-                        var addFileButton = document.getElementById('addFileButton');
-                        var attachmentBorder1 = document.getElementById('attachmentBorder1');
-                        var attachmentBorder2 = document.getElementById('attachmentBorder2');
-                        var additionalElements = document.getElementById('additionalElements');
+                        @if (Auth::user()->role == 3)
+                            function toggleAdditionalElements(selectedEventId) {
+                                var attachmentText = document.getElementById('attachmentText');
+                                var addFileButton = document.getElementById('addFileButton');
+                                var additionalElements = document.getElementById('additionalElements');
 
-                        attachmentText.style.display = selectedEventId ? 'block' : 'none';
-                        addFileButton.style.display = selectedEventId ? 'block' : 'none';
-                        attachmentBorder1.style.display = selectedEventId ? 'block' : 'none';
-                        attachmentBorder2.style.display = selectedEventId ? 'block' : 'none';
-                        additionalElements.style.display = selectedEventId ? 'block' : 'none';
+                                attachmentText.style.display = selectedEventId ? 'block' : 'none';
+                                addFileButton.style.display = selectedEventId ? 'block' : 'none';
+                                additionalElements.style.display = selectedEventId ? 'block' : 'none';
 
-                        var attachments = document.querySelectorAll('.attachment-list-item');
-                        attachments.forEach(function (attachment) {
-                            var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
-                            attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
-                        });
-                    }
-                    @elseif (Auth::user()->role == 2)
-                    function toggleAdditionalElements(selectedEventId) {
-                        var attachmentText = document.getElementById('attachmentText');
-                        var addFileButton = document.getElementById('addFileButton');
-                        var attachmentBorder1 = document.getElementById('attachmentBorder1');
-                        var attachmentBorder2 = document.getElementById('attachmentBorder2');
-                        var additionalElements = document.getElementById('additionalElements');
+                                var attachments = document.querySelectorAll('.attachment-list-item');
+                                attachments.forEach(function (attachment) {
+                                    var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
+                                    attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
+                                });
+                            }
+                        @elseif (Auth::user()->role == 2)
+                            function toggleAdditionalElements(selectedEventId) {
+                                var attachmentText = document.getElementById('attachmentText');
+                                var addFileButton = document.getElementById('addFileButton');
+                                var additionalElements = document.getElementById('additionalElements');
 
-                        attachmentText.style.display = selectedEventId ? 'block' : 'none';
-                        addFileButton.style.display = selectedEventId ? 'block' : 'none';
-                        attachmentBorder1.style.display = selectedEventId ? 'block' : 'none';
-                        attachmentBorder2.style.display = selectedEventId ? 'block' : 'none';
-                        additionalElements.style.display = selectedEventId ? 'block' : 'none';
+                                attachmentText.style.display = selectedEventId ? 'block' : 'none';
+                                addFileButton.style.display = selectedEventId ? 'block' : 'none';
+                                additionalElements.style.display = selectedEventId ? 'block' : 'none';
 
-                        var attachments = document.querySelectorAll('.attachment-list-item');
-                        attachments.forEach(function (attachment) {
-                            var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
-                            attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
-                        });
-                    }
-                    @elseif (Auth::user()->role == 1)
-                    function toggleAdditionalElements(selectedEventId) {
-                        var attachmentText = document.getElementById('attachmentText');
-                        var additionalElements = document.getElementById('additionalElements');
+                                var attachments = document.querySelectorAll('.attachment-list-item');
+                                attachments.forEach(function (attachment) {
+                                    var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
+                                    attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
+                                });
+                            }
+                        @elseif (Auth::user()->role == 1)
+                            function toggleAdditionalElements(selectedEventId) {
+                                var attachmentText = document.getElementById('attachmentText');
+                                var additionalElements = document.getElementById('additionalElements');
 
-                        attachmentText.style.display = selectedEventId ? 'block' : 'none';
-                        additionalElements.style.display = selectedEventId ? 'block' : 'none';
+                                attachmentText.style.display = selectedEventId ? 'block' : 'none';
+                                additionalElements.style.display = selectedEventId ? 'block' : 'none';
 
-                        var attachments = document.querySelectorAll('.attachment-list-item');
-                        attachments.forEach(function (attachment) {
-                            var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
-                            attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
-                        });
-                    }
-                    @endif
+                                var attachments = document.querySelectorAll('.attachment-list-item');
+                                attachments.forEach(function (attachment) {
+                                    var attachmentEventId = attachment.getAttribute('data-attachmenteventsId');
+                                    attachment.style.display = attachmentEventId === selectedEventId ? 'block' : 'none';
+                                });
+                            }
+                        @endif
                     @endauth
                 </script>
             </div>

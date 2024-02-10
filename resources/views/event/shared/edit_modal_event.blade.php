@@ -9,26 +9,25 @@
             <div class="modal-body">
                 <form id="eventForm2">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                        <input type="hidden" id="eventId" name="eventId" value="{{ $event->id }}">
+                        <label for="title" class="form-label" style="font-weight: 600;">Title <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="editTitle" name="title" required maxlength="30">
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description (Optional)</label>
+                        <label for="description" class="form-label" style="font-weight: 600;">Description (Optional)</label>
                         <textarea class="form-control" id="editDescription" name="description" maxlength="50"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="startTime" class="form-label">Start at <span class="text-danger">*</span></label>
+                        <label for="startTime" class="form-label" style="font-weight: 600;">Start at <span class="text-danger">*</span></label>
                         <input type="datetime-local" class="form-control" id="editStartTime" name="startTime" required>
                     </div>
                     <div class="mb-3">
-                        <label for="endTime" class="form-label">End at <span class="text-danger">*</span></label>
+                        <label for="endTime" class="form-label" style="font-weight: 600;">End at <span class="text-danger">*</span></label>
                         <input type="datetime-local" class="form-control" id="editEndTime" name="endTime" required>
                     </div>
                 </form>
             </div>
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-primary updateButton" id="updateButton" data-eventid="{{ $event->id }}">Update</button>
+                <button type="button" class="btn btn-primary updateButton" id="updateButton">Update</button>
                 <button type="button" class="btn btn-danger" id="resetButton2">Reset</button>
             </div>
         </div>
