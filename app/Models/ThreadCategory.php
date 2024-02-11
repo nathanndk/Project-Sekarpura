@@ -23,4 +23,11 @@ class ThreadCategory extends Model
     {
         return $this->hasMany(Thread::class, 'thread_category_id', 'id');
     }
+
+    public function delete()
+    {
+        $this->threads()->delete();
+
+        return parent::delete();
+    }
 }

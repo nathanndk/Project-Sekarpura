@@ -30,6 +30,7 @@ class CommentController extends Controller
             $notification->keterangan = auth()->user()->name . ' commented on your post: "' . $comment->content . '"';
             $notification->isRead = 0;
             $notification->created_at = now();
+            $notification->created_by = auth()->user()->id;
             $notification->updated_at = now();
             $notification->user_id = $thread->user_id;
 

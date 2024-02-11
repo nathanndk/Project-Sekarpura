@@ -5,11 +5,11 @@
             <div class="card">
                 <div class="card-body">
                     @if ($editing ?? false)
-                    <form action="{{ route('categories.update', $category->id) }}" method="post">
+                    <form action="{{ route('categories.update', ['category' => $category->id]) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="mb-3">
-                            <input type="text" class="form-control form-control-sm" id="category" name="category" value="{{ $category->category }}">
+                            <textarea class="form-control form-control-sm" id="category" name="category" rows="1">{{ $category->category }}</textarea>
                             @error('category')
                             <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                             @enderror

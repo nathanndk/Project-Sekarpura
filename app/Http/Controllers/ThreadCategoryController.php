@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ThreadCategory;
 use App\Models\Thread;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ThreadCategoryController extends Controller
 {
@@ -59,28 +60,28 @@ class ThreadCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThreadCategory $threadCategories)
+    public function edit(ThreadCategory $threadCategory)
     {
         $editing = true;
-        $threads = $threadCategories->threads()
+        $threads = $threadCategory->threads()
             ->orderBy('created_at', 'DESC')
             ->paginate(5);
-
+        $threadCategories = ThreadCategory::all();
         return view('cluster.edit', compact('threadCategories', 'threads', 'editing'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThreadCategory $threadCategory)
+    public function update(Request $request, ThreadCategory $category)
     {
         $request->validate([
             'category' => 'required|string|max:255',
         ]);
 
-        $threadCategory->category = $request->input('category');
-
-        $threadCategory->save();
+        $category->update([
+            'category' => $request->input('category'),
+        ]);
 
         return redirect()->route('cluster');
     }
@@ -88,8 +89,10 @@ class ThreadCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ThreadCategory $threadCategory)
+    public function destroy($categoryId)
     {
+        $threadCategory = ThreadCategory::find($categoryId);
+
         $threadCategory->delete();
 
         return redirect()->route('cluster');
@@ -111,6 +114,7 @@ class ThreadCategoryController extends Controller
         $threads = Thread::whereHas('threadCategories', function ($query) use ($selectedCategories) {
             $query->whereIn('id', $selectedCategories);
         })
+            ->where('status', 'approved')
             ->orderBy('created_at', 'DESC')
             ->get();
 

@@ -28,7 +28,7 @@
                         @method('delete')
                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?')">X</button>
                     </form>
-                
+
                     @endif
                 </div>
             </div>

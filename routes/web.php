@@ -63,7 +63,7 @@ Route::post('/categories/search', [ThreadCategoryController::class, 'search'])->
 
 
 // Comment
-Route::resource('threads.comments', CommentController::class)->only(['store'])->middleware(['auth', 'AnggotaPengurus']);
+Route::resource('threads.comments', CommentController::class)->only(['store'])->middleware(['auth']);
 
 
 // User
