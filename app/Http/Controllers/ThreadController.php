@@ -124,18 +124,31 @@ class ThreadController extends Controller
             'content' => 'required|min:5|max:254',
         ]);
 
+        // Mendapatkan peran pengguna yang sedang menjalankan permintaan
+        $userRole = auth()->user()->role;
+
         $thread->title = $request->input('title', '');
         $thread->content = $request->input('content', '');
+
+        if ($userRole == 3) {
+            $thread->status = 'approved';
+        } else {
+            // Jika bukan, ubah status menjadi 'pending'
+            $thread->status = 'pending';
+        }
 
         $thread->updated_at = now();
         $thread->save();
 
-        if ($thread->status == 'approved') {
-            return redirect()->route('forum', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated and approved!');
-        } else {
+        if ($thread->status == 'approved' && $userRole == 3) {
+            return redirect()->route('forum', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated!');
+        } else if ($thread->status == 'pending' && $userRole == 3) {
             return redirect()->route('admin.approval', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated!');
+        } else if ($thread->status == 'pending') {
+            return redirect()->route('forum', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated successfully, wait for admin approval!');
         }
     }
+
 
 
     public function getCategory()

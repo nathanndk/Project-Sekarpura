@@ -5,32 +5,37 @@
 @extends('layouts.header')
 
 @section('content')
-    <div class="container py-4">
-            @include('layouts.sidebar')
-            <div class="col-6">
-                @include('shared.success_message')
-                {{-- hilangkan tombol submit thread jika role admin --}}
-                @auth
-                <a href="{{route('threads.category', ["forum_type_id"=>$forum_type_id])}}" class="btn btn-primary mb-3">+ Create a Thread</a>
-                @endauth
-                @guest
-                <h4>Login to share your ideas</h4>
-                @endguest
-                @forelse ($threads as $thread)
-                <div class="mt-3">
-                    @include('threads.shared.thread_card')
-                </div>
-                @empty
-                <p class="text-center my-3">No results found</p>
-                @endforelse
-                <div class="mt-3">
-                    {{ $threads->withQueryString()->links() }}
-                </div>
+<div class="container py-4">
+    <div class="row">
+ @include('layouts.sidebar')
+        <div class="col-lg-6">
+            @include('shared.success_message')
+            @auth
+            <div class="text-end mb-3">
+                <a href="{{ route('threads.category', ["forum_type_id" => $forum_type_id]) }}" class="btn btn-primary">+ Create a Thread</a>
             </div>
-            <div class="col-3">
-                @include('shared.search_bar')
-                @include('forum.shared.category')
+            @endauth
+            @guest
+            <h4 class="text-center">Login to share your ideas</h4>
+            @endguest
+
+            @forelse ($threads as $thread)
+            <div class="mt-3">
+                @include('threads.shared.thread_card')
+            </div>
+            @empty
+            <p class="text-center my-3">No results found</p>
+            @endforelse
+
+            <div class="mt-3">
+                {{ $threads->withQueryString()->links() }}
             </div>
         </div>
+
+        <div class="col-lg-3"> <!-- Sidebar -->
+            @include('shared.search_bar')
+            @include('forum.shared.category')
+        </div>
     </div>
- @endsection
+</div>
+@endsection

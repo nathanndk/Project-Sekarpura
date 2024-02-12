@@ -38,7 +38,14 @@
                             <i class="bi bi-x-lg cancel"></i>
                         </button>
                     @elseif (Auth::user()->role == 1)
-                        <p id="attachmentText" style="display: none; margin-bottom: 10px"><strong>Attachment(s)</strong></p>
+                        <p id="attachmentText" style="display: none; margin-bottom: -7px"><strong>Attachment(s)</strong></p>
+                        <input type="file" class="form-control" id="addFileButton" style="display: none;" multiple>
+                        <button id="uploadConfirmBtn" style="display: none;">
+                            <i class="bi bi-check2 confirm"></i>
+                        </button>
+                        <button id="cancelUploadBtn" style="display: none;">
+                            <i class="bi bi-x-lg cancel"></i>
+                        </button>
                     @endif
                 @endauth
 
@@ -136,18 +143,23 @@
                             cancelUploadBtn.style.display = 'none';
                         });
 
-                        downloadFileButtons.forEach(function (button) {
-                            button.addEventListener('click', function () {
-                                var attachmentPath = button.closest('.attachment-list-item').getAttribute('data-attachmentpath');
-                                var attachmentFileName = button.closest('.attachment-list-item').getAttribute('data-attachmentfile');
+                        @auth
+                            @if (Auth::user()->role == 3 || Auth::user()->role == 2 || Auth::user()->role == 1)
+                                downloadFileButtons.forEach(function (button) {
+                                    button.addEventListener('click', function () {
+                                        console.log('Download button pressed');
+                                        var attachmentPath = button.closest('.attachment-list-item').getAttribute('data-attachmentpath');
+                                        var attachmentFileName = button.closest('.attachment-list-item').getAttribute('data-attachmentfile');
 
-                                var downloadLink = document.createElement('a');
-                                downloadLink.href = '/storage/' + attachmentPath + '/' + attachmentFileName;
-                                downloadLink.download = attachmentFileName;
+                                        var downloadLink = document.createElement('a');
+                                        downloadLink.href = '/storage/' + attachmentPath + '/' + attachmentFileName;
+                                        downloadLink.download = attachmentFileName;
 
-                                downloadLink.click();
-                            });
-                        });
+                                        downloadLink.click();
+                                    });
+                                });
+                            @endif
+                        @endauth
 
                         deleteFileButtons.forEach(function (button) {
                             button.addEventListener('click', function () {

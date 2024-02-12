@@ -8,7 +8,7 @@
 <div class="container py-4">
     <div class="row">
         @include('layouts.sidebar')
-        <div class="col-6">
+        <div class="col-lg-6">
             @include('shared.success_message')
             <div class="mt-3">
                 @include('users.shared.user_edit_card')
@@ -25,7 +25,7 @@
                 {{ $threads->withQueryString()->links() }}
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3">
             @include('shared.search_bar')
             @include('forum.shared.category')
         </div>

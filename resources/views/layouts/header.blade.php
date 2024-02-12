@@ -42,7 +42,7 @@
                             <a class="nav-link {{ Route::is('admin.approval', ["forum_type_id" => 2]) ? 'active' : '' }}" href="{{ route('admin.approval', ["forum_type_id" => 2]) }}">Approval</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (Route::is('cluster')) ? 'active' : '' }}" href="{{ route('cluster') }}">Admin Page</a>
+                            <a class="nav-link {{ (Route::is('admin.users')) ? 'active' : '' }}" href="{{ route('admin.users') }}">Admin Page</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (Route::is('notifications')) ? 'active' : '' }}" href="{{ route('notifications') }}">Notifications</a>

@@ -5,8 +5,9 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="d-flex align-items-center mb-2">
                         <img style="width:50px; height:50px; object-fit: cover;" class="me-2 avatar-sm rounded-circle" src="{{ $thread->user->getImageURL() }}" alt="{{ $thread->user->name }}">
-                        <div>
+                        <div class="mt-3">
                             <h5 class="card-title mb-0"><a href="{{ route('users.show', $thread->user->id) }}" class="text-dark text-decoration-none">{{ $thread->user->name }}</a></h5>
+                            <p>{{ $thread->threadCategories->category }}</p>
                         </div>
                     </div>
                     <div class="dropdown">

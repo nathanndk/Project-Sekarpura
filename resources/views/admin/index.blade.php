@@ -7,12 +7,14 @@
 @section('content')
 <div class="container py-4">
     <div class="row">
-        @include('layouts.sidebar_approval')
-        <div class="col-6">
+ @include('layouts.sidebar_approval')
+        <div class="col-lg-6">
             @include('shared.success_message')
+            {{-- hilangkan tombol submit thread jika role admin --}}
             @guest
-            <h4>Login to share your ideas</h4>
+            <h4 class="text-center">Login to share your ideas</h4>
             @endguest
+
             @forelse ($threads as $thread)
             <div class="mt-3">
                 @include('admin.shared.approval')
@@ -20,14 +22,15 @@
             @empty
             <p class="text-center my-3">No results found</p>
             @endforelse
+
             <div class="mt-3">
                 {{ $threads->withQueryString()->links() }}
             </div>
-        </div>
-        <div class="col-3">
+        </div> <!-- End Main Content -->
+
+        <div class="col-lg-3"> <!-- Sidebar -->
             @include('shared.search_bar_approval')
-            @include('forum.shared.category')
-        </div>
+        </div> <!-- End Sidebar -->
     </div>
 </div>
 @endsection
