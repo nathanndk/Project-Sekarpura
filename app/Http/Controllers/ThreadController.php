@@ -45,7 +45,7 @@ class ThreadController extends Controller
         return view('threads.show', compact('thread'));
     }
 
-    public function edit(Thread $thread)
+    public function edit(Request $request, Thread $thread)
     {
         // if (auth()->user()->id !== $thread->user_id) {
         //     abort(404);
@@ -127,17 +127,16 @@ class ThreadController extends Controller
         $thread->title = $request->input('title', '');
         $thread->content = $request->input('content', '');
 
-        if (auth()->user()->role == 3) {
-            $thread->status = 'approved';
-        } else {
-            $thread->status = 'pending';
-        }
-
         $thread->updated_at = now();
         $thread->save();
 
-        return redirect()->route('forum')->with('success', 'Thread updated' . ($thread->status == 'approved' ? ' and approved!' : ', wait for admin approval!'));
+        if ($thread->status == 'approved') {
+            return redirect()->route('forum', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated and approved!');
+        } else {
+            return redirect()->route('admin.approval', ["forum_type_id" => $thread->forum_type_id])->with('success', 'Thread updated!');
+        }
     }
+
 
     public function getCategory()
     {
